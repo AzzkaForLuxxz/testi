@@ -1,0 +1,27 @@
+
+name: Build C++ EXE
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Download Source Code
+        uses: actions/checkout@v4
+
+      - name: Compile C++
+        shell: pwsh
+        run: |
+          g++ main.cpp -o DataDiri.exe -std=c++17 -static
+
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: DataDiri-Windows
+          path: DataDiri.exe
+          if-no-files-found: error
